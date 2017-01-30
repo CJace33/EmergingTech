@@ -6,14 +6,19 @@ using Phidgets.Events;
 using UnityEngine;
 using System.Collections;
 
+
+
 public class RFIDController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start ()
+    public static bool CheckPaused = false;
+    public RFID Spellbook = new RFID(); //Declare an RFID object called Spellbook
+
+    // Use this for initialization
+    void Start ()
     {
         try
         {
-            RFID Spellbook = new RFID; //Declare an RFID object called Spellbook
+
 
             //Initialise Phidgets RFID reader and hook the event handlers
             Spellbook.Attach += new AttachEventHandler(Spellbook_Attach);
@@ -32,18 +37,78 @@ public class RFIDController : MonoBehaviour {
             Spellbook.Antenna = true;
             Spellbook.LED = true;
 
-            if (Input.GetButtonDown("e"))
-            {
-                Spellbook.LED = false;
+            //Debug.Log("Press e to end.");
+            //if (Input.GetButtonDown("e"))
+            //{
+            //    Spellbook.LED = false;
+            //    Spellbook.close();
+            //    Spellbook = null;
+            //    Debug.Log("RFID device deactivated");
 
-            }
+
+            //}
 
         }
+        catch (PhidgetException ex)
+        {
+            Debug.Log(ex.Description);
+        }
 
-	}
+    }
 	
+
+
 	// Update is called once per frame
-	void Update () {
-	
-	}
+	void Update ()
+    {
+        Spellbook.TagLost += new TagEventHandler(Spellbook_TagLost);
+        if (CheckPaused == true)
+        {
+            Time.timeScale = 0;
+            Debug.Log("Paused");
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+    }
+
+    static void Spellbook_Attach(object sender, AttachEventArgs e)
+    {
+        Debug.Log("RFIDReader {0} attached!" + e.Device.SerialNumber.ToString());
+    }
+
+    //detach event handler...display the serial number of the detached RFID phidget
+    static void Spellbook_Detach(object sender, DetachEventArgs e)
+    {
+        Debug.Log("RFID reader {0} detached!" + e.Device.SerialNumber.ToString());
+    }
+
+    //Error event handler...display the error description string
+    static void Spellbook_Error(object sender, ErrorEventArgs e)
+    {
+        Debug.Log(e.Description);
+    }
+
+    //Print the tag code of the scanned tag
+    static void Spellbook_Tag(object sender, TagEventArgs e)
+    {
+        Debug.Log("Tag {0} scanned" + e.Tag);
+        if (e.Tag == "Jump")
+        {
+            CheckPaused = !CheckPaused;
+        }
+    }
+
+    //print the tag code for the tag that was just lost
+    static void Spellbook_TagLost(object sender, TagEventArgs e)
+    {
+        Debug.Log("Tag {0} lost" + e.Tag);
+        if (e.Tag == "Jump")
+        {
+  //          CheckPaused = false;
+        }
+    }
+
 }
+

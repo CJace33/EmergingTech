@@ -1,0 +1,14 @@
+C:\Users\Administrator\Desktop\EmergingTech\Emerging Technomancy\Temp\UnityVS_bin\Debug\Assembly-CSharp-firstpass.dll
+C:\Users\Administrator\Desktop\EmergingTech\Emerging Technomancy\Temp\UnityVS_bin\Debug\Assembly-CSharp-firstpass.pdb
+C:\Users\Administrator\Desktop\EmergingTech\Emerging Technomancy\Temp\UnityVS_bin\Debug\Phidget21.NET.dll
+C:\Users\Administrator\Desktop\EmergingTech\Emerging Technomancy\Temp\UnityVS_bin\Debug\UnityEditor.dll
+C:\Users\Administrator\Desktop\EmergingTech\Emerging Technomancy\Temp\UnityVS_bin\Debug\UnityEngine.dll
+C:\Users\Administrator\Desktop\EmergingTech\Emerging Technomancy\Temp\UnityVS_bin\Debug\UnityEngine.Networking.dll
+C:\Users\Administrator\Desktop\EmergingTech\Emerging Technomancy\Temp\UnityVS_bin\Debug\UnityEngine.UI.dll
+C:\Users\Administrator\Desktop\EmergingTech\Emerging Technomancy\Temp\UnityVS_bin\Debug\UnityEngine.xml
+C:\Users\Administrator\Desktop\EmergingTech\Emerging Technomancy\Temp\UnityVS_bin\Debug\UnityEngine.UI.xml
+C:\Users\Administrator\Desktop\EmergingTech\Emerging Technomancy\Temp\UnityVS_bin\Debug\UnityEngine.Networking.xml
+C:\Users\Administrator\Desktop\EmergingTech\Emerging Technomancy\Temp\UnityVS_bin\Debug\UnityEditor.xml
+C:\Users\Administrator\Desktop\EmergingTech\Emerging Technomancy\Temp\UnityVS_obj\Debug\Emerging Technomancy.CSharp.Plugins.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\EmergingTech\Emerging Technomancy\Temp\UnityVS_obj\Debug\Assembly-CSharp-firstpass.dll
+C:\Users\Administrator\Desktop\EmergingTech\Emerging Technomancy\Temp\UnityVS_obj\Debug\Assembly-CSharp-firstpass.pdb
