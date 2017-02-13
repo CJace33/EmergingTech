@@ -71,6 +71,8 @@ public class RFIDController : MonoBehaviour {
         {
             Time.timeScale = 1;
         }
+
+        Spellbook.TagLost
     }
 
     static void Spellbook_Attach(object sender, AttachEventArgs e)
@@ -104,7 +106,7 @@ public class RFIDController : MonoBehaviour {
     static void Spellbook_TagLost(object sender, TagEventArgs e)
     {
         Debug.Log("Tag {0} lost" + e.Tag);
-        if (e.Tag == "Jump")
+        if (e.Tag == "OneLife")
         {
   //          CheckPaused = false;
         }
