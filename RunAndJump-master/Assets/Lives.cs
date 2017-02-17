@@ -126,10 +126,6 @@ public class Lives : MonoBehaviour
     static void Spellbook_TagLost(object sender, TagEventArgs e)
     {
         Debug.Log("Tag {0} lost" + e.Tag);
-        if (e.Tag == "OneLife")
-        {
-            //          CheckPaused = false;
-        }
     }
 
 }
