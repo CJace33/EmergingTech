@@ -112,11 +112,11 @@ public class Lives : MonoBehaviour
     static void Spellbook_Tag(object sender, TagEventArgs e)
     {
         Debug.Log("Tag {0} scanned" + e.Tag);
-        if (e.Tag == "Jump")
+        if (isJump(e))
         {
             CheckPaused = !CheckPaused;
         }
-        if (e.Tag == "OneLife")
+        if (isOneLife(e))
         {
             Lives.addLives++;
         }
@@ -126,6 +126,20 @@ public class Lives : MonoBehaviour
     static void Spellbook_TagLost(object sender, TagEventArgs e)
     {
         Debug.Log("Tag {0} lost" + e.Tag);
+        if (isOneLife(e))
+        {
+            //          CheckPaused = false;
+        }
     }
 
+
+    private static bool isOneLife(TagEventArgs e)
+    {
+        return e.Tag.ToLower() == "onelife";
+    }
+
+    private static bool isJump(TagEventArgs e)
+    {
+        return e.Tag.ToLower() == "jump";
+    }
 }
