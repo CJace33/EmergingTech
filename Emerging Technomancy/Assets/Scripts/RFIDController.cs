@@ -65,7 +65,7 @@ public class RFIDController : MonoBehaviour {
         if (CheckPaused == true)
         {
             Time.timeScale = 0;
-            Debug.Log("Paused");
+            Debug.Log("Ducked");
         }
         else
         {

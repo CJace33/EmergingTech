@@ -131,7 +131,8 @@ namespace RFID_full
                 case PhidgetException.ErrorType.PHIDGET_ERREVENT_BADPASSWORD:
                     phid.close();
                     TextInputBox dialog = new TextInputBox("Error Event",
-                        "Authentication error: This server requires a password.", "Please enter the password, or cancel.");
+                        "Authentication error: This server requires a password.",
+                        "Please enter the password, or cancel.");
                     result = dialog.ShowDialog();
                     if (result == DialogResult.OK)
                         openCmdLine(phid, dialog.password);

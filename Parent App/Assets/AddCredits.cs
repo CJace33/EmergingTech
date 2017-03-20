@@ -9,13 +9,14 @@ using Phidgets.Events;
 
 
 
-public class Lives : MonoBehaviour
+public class AddCredits : MonoBehaviour
 {
     //What should be added to the card
     public string tempWrite = "";
     //What is already on the card
-    public string currentWrite = "";
+    public static string currentWrite = "";
     public RFID writeRFID = new RFID(); //Declare an RFID object
+    GUIText credits;
 
     // Use this for initialization
     void Start()
@@ -77,9 +78,19 @@ public class Lives : MonoBehaviour
     //Print the tag code of the scanned tag
     static void writeRFID_Tag(object sender, TagEventArgs e)
     {
-        if (writeRFID.tempWrite != "")
+        currentWrite = e.Tag;
+    }
+
+    private void writeBtn_Click(object sender, EventArgs e)
+    {
+        try
         {
-            writeRFID.write()
+            RFID.RFIDTagProtocol proto = (RFID.RFIDTagProtocol)Enum.Parse(typeof(RFID.RFIDTagProtocol), writeProtoCmb.SelectedItem.ToString());
+            rfid.write(writeTagTxt.Text, proto, writeLockChk.Checked);
+        }
+        catch (PhidgetException ex)
+        {
+            MessageBox.Show("Error writing tag: " + ex.Message);
         }
     }
 
