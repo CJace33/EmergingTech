@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Phidgets;
 using Phidgets.Events;
-
-
-
-
-
+using System;
 
 public class AddCredits : MonoBehaviour
 {
@@ -16,15 +12,14 @@ public class AddCredits : MonoBehaviour
     //What is already on the card
     public static string currentWrite = "";
     public RFID writeRFID = new RFID(); //Declare an RFID object
-    GUIText credits;
+    //public Text credits;
+
 
     // Use this for initialization
     void Start()
     {
         try
         {
-
-
             //Initialise Phidgets RFID reader and hook the event handlers
             writeRFID.Attach += new AttachEventHandler(writeRFID_Attach);
             writeRFID.Detach += new DetachEventHandler(writeRFID_Detach);
@@ -41,13 +36,11 @@ public class AddCredits : MonoBehaviour
             //Turn on the LED and Antenna
             writeRFID.Antenna = true;
             writeRFID.LED = true;
-
         }
         catch (PhidgetException ex)
         {
             Debug.Log(ex.Description);
         }
-
     }
 
 
@@ -79,18 +72,28 @@ public class AddCredits : MonoBehaviour
     static void writeRFID_Tag(object sender, TagEventArgs e)
     {
         currentWrite = e.Tag;
+        Debug.Log(e.Tag);
     }
 
     private void writeBtn_Click(object sender, EventArgs e)
     {
-        try
+        //Compare the two strings to check if they are the same
+        if (String.Compare(tempWrite, currentWrite) != 0)
         {
-            RFID.RFIDTagProtocol proto = (RFID.RFIDTagProtocol)Enum.Parse(typeof(RFID.RFIDTagProtocol), writeProtoCmb.SelectedItem.ToString());
-            rfid.write(writeTagTxt.Text, proto, writeLockChk.Checked);
+            //If they are then 
+            try
+            {
+                RFID.RFIDTagProtocol proto = (RFID.RFIDTagProtocol)Enum.Parse(typeof(RFID.RFIDTagProtocol), "PHIDGET_RFID_PROTOCOL_PHIDGETS".ToString());
+                writeRFID.write(tempWrite, proto, false);
+            }
+            catch (PhidgetException ex)
+            {
+                Debug.Log("Error writing tag: " + ex.Message);
+            }
         }
-        catch (PhidgetException ex)
+        else
         {
-            MessageBox.Show("Error writing tag: " + ex.Message);
+            Debug.Log("");
         }
     }
 
@@ -101,6 +104,7 @@ public class AddCredits : MonoBehaviour
     }
 
     public int creditsToAdd = 0;
+
     public void addCredits(int creditsToAdd)
     {
 
