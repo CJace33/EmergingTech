@@ -4,16 +4,18 @@ using UnityEngine;
 using Phidgets;
 using Phidgets.Events;
 using System;
+using System.Linq;
 
 public class AddCredits : MonoBehaviour
 {
+
     //What should be added to the card
     public string tempWrite = "";
     //What is already on the card
     public static string currentWrite = "";
     public RFID writeRFID = new RFID(); //Declare an RFID object
     //public Text credits;
-
+    public int creditsToAdd = 0;
 
     // Use this for initialization
     void Start()
@@ -48,7 +50,37 @@ public class AddCredits : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Compare the two strings to check if they are different
+        if (String.Compare(tempWrite, currentWrite) != 0)
+        {
+            try
+            {
+                int creditsStored;
+                //convert the current number of credits to an int
+                if (Int32.TryParse(currentWrite, out creditsStored))
+                {
+                    creditsToAdd += creditsStored;
+                    tempWrite = creditsToAdd.ToString();
+                }
+                else
+                {
+                    Debug.Log("Information on card not a number");
+                    currentWrite = "";
+                }
+                RFID.RFIDTagProtocol proto = (RFID.RFIDTagProtocol)Enum.Parse(typeof(RFID.RFIDTagProtocol), "PHIDGETS");
+                RFID.RFIDTagProtocol proto = RFID.RFIDTagProtocol.PHIDGETS;
 
+                writeRFID.write(tempWrite.ToString(), proto, false);
+            }
+            catch (PhidgetException ex)
+            {
+                Debug.Log("Error writing tag: " + ex.Message);
+            }
+        }
+        //else
+        //{
+        //    Debug.Log("");
+        //}
     }
 
     static void writeRFID_Attach(object sender, AttachEventArgs e)
@@ -77,36 +109,22 @@ public class AddCredits : MonoBehaviour
 
     private void writeBtn_Click(object sender, EventArgs e)
     {
-        //Compare the two strings to check if they are the same
-        if (String.Compare(tempWrite, currentWrite) != 0)
-        {
-            //If they are then 
-            try
-            {
-                RFID.RFIDTagProtocol proto = (RFID.RFIDTagProtocol)Enum.Parse(typeof(RFID.RFIDTagProtocol), "PHIDGET_RFID_PROTOCOL_PHIDGETS".ToString());
-                writeRFID.write(tempWrite, proto, false);
-            }
-            catch (PhidgetException ex)
-            {
-                Debug.Log("Error writing tag: " + ex.Message);
-            }
-        }
-        else
-        {
-            Debug.Log("");
-        }
+
     }
 
     //print the tag code for the tag that was just lost
     static void writeRFID_TagLost(object sender, TagEventArgs e)
     {
-        Debug.Log("Tag {0} lost" + e.Tag);
+        Debug.Log("Tag {0} lost " + e.Tag);
     }
 
-    public int creditsToAdd = 0;
 
-    public void addCredits(int creditsToAdd)
+
+    public void addCredits(int addedCredits)
     {
-
+        creditsToAdd = addedCredits;
     }
+
+    
+
 }
