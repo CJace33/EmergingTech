@@ -67,7 +67,7 @@ public class AddCredits : MonoBehaviour
                     Debug.Log("Information on card not a number");
                     currentWrite = "";
                 }
-                RFID.RFIDTagProtocol proto = (RFID.RFIDTagProtocol)Enum.Parse(typeof(RFID.RFIDTagProtocol), "PHIDGETS");
+                //RFID.RFIDTagProtocol proto = (RFID.RFIDTagProtocol)Enum.Parse(typeof(RFID.RFIDTagProtocol), "PHIDGETS");
                 RFID.RFIDTagProtocol proto = RFID.RFIDTagProtocol.PHIDGETS;
 
                 writeRFID.write(tempWrite.ToString(), proto, false);
