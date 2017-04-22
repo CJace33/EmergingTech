@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Phidgets;
 using Phidgets.Events;
 using System;
@@ -10,16 +11,26 @@ public class AddCredits : MonoBehaviour
 {
 
     //What should be added to the card
-    public string tempWrite = "";
+    public static string tempWrite = "";
     //What is already on the card
-    public static string currentWrite = "";
+    public static string cardText = "";
     public RFID writeRFID = new RFID(); //Declare an RFID object
     //public Text credits;
     public int creditsToAdd = 0;
 
+    public static bool changed = false;
+
+    public GameObject UItext;
+    Text noOfCredits;
+
+
     // Use this for initialization
     void Start()
     {
+        //Setup text in the stored credits text item and make it equal nothing
+        UItext = GameObject.Find("StoredCredits");
+        noOfCredits = UItext.GetComponent<Text>();
+        noOfCredits.text = "";
         try
         {
             //Initialise Phidgets RFID reader and hook the event handlers
@@ -45,19 +56,27 @@ public class AddCredits : MonoBehaviour
         }
     }
 
-
-
     // Update is called once per frame
     void Update()
     {
+
+
+
+
+
+
+        //Convert the number of credits that need to be added to a string
+        tempWrite = creditsToAdd.ToString();
+        //Display any text on the RFID card
+        noOfCredits.text = cardText;
         //Compare the two strings to check if they are different
-        if (String.Compare(tempWrite, currentWrite) != 0)
+        if (changed)
         {
             try
             {
                 int creditsStored;
                 //convert the current number of credits to an int
-                if (Int32.TryParse(currentWrite, out creditsStored))
+                if (Int32.TryParse(cardText, out creditsStored))
                 {
                     creditsToAdd += creditsStored;
                     tempWrite = creditsToAdd.ToString();
@@ -65,12 +84,16 @@ public class AddCredits : MonoBehaviour
                 else
                 {
                     Debug.Log("Information on card not a number");
-                    currentWrite = "";
+                    cardText = "";
                 }
                 //RFID.RFIDTagProtocol proto = (RFID.RFIDTagProtocol)Enum.Parse(typeof(RFID.RFIDTagProtocol), "PHIDGETS");
                 RFID.RFIDTagProtocol proto = RFID.RFIDTagProtocol.PHIDGETS;
 
-                writeRFID.write(tempWrite.ToString(), proto, false);
+                writeRFID.write(tempWrite, proto, false);
+
+                //Null credits to add so they don't get added every frame
+                creditsToAdd = 0;
+                tempWrite = "";
             }
             catch (PhidgetException ex)
             {
@@ -103,28 +126,22 @@ public class AddCredits : MonoBehaviour
     //Print the tag code of the scanned tag
     static void writeRFID_Tag(object sender, TagEventArgs e)
     {
-        currentWrite = e.Tag;
-        Debug.Log(e.Tag);
-    }
-
-    private void writeBtn_Click(object sender, EventArgs e)
-    {
-
+        cardText = e.Tag;
+        //Check if the two tags are different, and if they are indicate that the card needs to be updated
+        if (String.Compare(tempWrite, cardText) != 0)
+        {
+            changed = true;
+        }
+        Debug.Log("Tag detected: " + e.Tag);
     }
 
     //print the tag code for the tag that was just lost
     static void writeRFID_TagLost(object sender, TagEventArgs e)
     {
-        Debug.Log("Tag {0} lost " + e.Tag);
+        Debug.Log("Tag lost: " + e.Tag);
     }
-
-
-
     public void addCredits(int addedCredits)
     {
-        creditsToAdd = addedCredits;
+        creditsToAdd += addedCredits;
     }
-
-    
-
 }
