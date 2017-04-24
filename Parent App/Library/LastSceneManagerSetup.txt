@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Menu.unity
+- path: F:/Documents/GitHub Repositories/EmergingTech/RunAndJump-master/Assets/Scenes/Title/Title.unity
   isLoaded: 1
   isActive: 1

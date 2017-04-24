@@ -140,6 +140,7 @@ public class AddCredits : MonoBehaviour
     {
         Debug.Log("Tag lost: " + e.Tag);
     }
+
     public void addCredits(int addedCredits)
     {
         creditsToAdd += addedCredits;

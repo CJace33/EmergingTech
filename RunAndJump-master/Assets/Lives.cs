@@ -77,15 +77,18 @@ public class Lives : MonoBehaviour
         Spellbook.TagLost += new TagEventHandler(Spellbook_TagLost);
         if (CheckPaused == true)
         {
+            //Pauses the game
             Time.timeScale = 0;
             Debug.Log("Paused");
         }
         else
         {
+            //Unpauses the game
             Time.timeScale = 1;
         }
         if (addLives > 0)
         {
+            //Adds lives if the life card was detected
             LifeStorage += addLives;
             addLives = 0;
         }
@@ -128,7 +131,7 @@ public class Lives : MonoBehaviour
         Debug.Log("Tag {0} lost" + e.Tag);
         if (isOneLife(e))
         {
-            //          CheckPaused = false;
+            CheckPaused = false;
         }
     }
 
